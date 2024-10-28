@@ -1,0 +1,38 @@
+<form [formGroup]="productoForm" (ngSubmit)="createProducto()" class="container mt-4">
+  <div class="mb-3">
+    <label for="nombre" class="form-label">Nombre:</label>
+    <input id="nombre" formControlName="nombre" required class="form-control">
+    <div *ngIf="productoForm.get('nombre')?.invalid && productoForm.get('nombre')?.touched" class="text-danger">
+      Nombre es requerido.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="descripcion" class="form-label">Descripción:</label>
+    <input id="descripcion" formControlName="descripcion" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label for="precio" class="form-label">Precio:</label>
+    <input id="precio" type="number" formControlName="precio" required class="form-control">
+    <div *ngIf="productoForm.get('precio')?.invalid && productoForm.get('precio')?.touched" class="text-danger">
+      Precio es requerido y debe ser mayor o igual a 0.
+    </div>
+  </div>
+
+  <div class="mb-3 form-check">
+    <input id="estado" type="checkbox" formControlName="estado" class="form-check-input">
+    <label for="estado" class="form-check-label">Estado</label>
+  </div>
+
+  <button type="submit" [disabled]="productoForm.invalid" class="btn btn-primary">Crear Producto</button>
+</form>
+
+<div class="container mt-4">
+  <div *ngFor="let producto of productos" class="border rounded p-3 mb-3">
+    <h3>{{ producto.nombre }}</h3>
+    <p>{{ producto.descripcion }}</p>
+    <p>Precio: {{ producto.precio }}</p>
+    <button (click)="deleteProducto(producto.id)" *ngIf="producto.id !== undefined" class="btn btn-danger">Eliminar</button>
+  </div>
+</div>
