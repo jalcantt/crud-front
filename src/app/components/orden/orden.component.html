@@ -1,0 +1,72 @@
+<div class="container mt-4">
+    <h2>Gestión de Órdenes</h2>
+  
+    <form [formGroup]="ordenForm" (ngSubmit)="addOrUpdateOrden()" class="mt-3">
+      <div class="mb-3">
+        <label for="cantidad" class="form-label">Cantidad:</label>
+        <input type="number" id="cantidad" formControlName="cantidad" required class="form-control">
+        <div *ngIf="ordenForm.get('cantidad')?.invalid && ordenForm.get('cantidad')?.touched" class="text-danger">
+          Cantidad es requerida y debe ser al menos 1.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="total" class="form-label">Total:</label>
+        <input type="number" id="total" formControlName="total" required class="form-control">
+        <div *ngIf="ordenForm.get('total')?.invalid && ordenForm.get('total')?.touched" class="text-danger">
+          Total es requerido.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="fechaOrden" class="form-label">Fecha de Orden:</label>
+        <input type="date" id="fechaOrden" formControlName="fechaOrden" required class="form-control">
+        <div *ngIf="ordenForm.get('fechaOrden')?.invalid && ordenForm.get('fechaOrden')?.touched" class="text-danger">
+          Fecha de orden es requerida.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="producto" class="form-label">Producto:</label>
+        <select id="producto" formControlName="producto" class="form-control" required>
+          <option value="" disabled>Seleccione un producto</option>
+          <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.nombre }}</option>
+        </select>
+        <div *ngIf="ordenForm.get('producto')?.invalid && ordenForm.get('producto')?.touched" class="text-danger">
+          Producto es requerido.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="cliente" class="form-label">Cliente:</label>
+        <select id="cliente" formControlName="cliente" class="form-control" required>
+          <option value="" disabled>Seleccione un cliente</option>
+          <option *ngFor="let cliente of clientes" [value]="cliente.id">{{ cliente.nombre }}</option>
+        </select>
+        <div *ngIf="ordenForm.get('cliente')?.invalid && ordenForm.get('cliente')?.touched" class="text-danger">
+          Cliente es requerido.
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="ordenForm.invalid" class="btn btn-primary">
+        {{ isEditing ? 'Actualizar' : 'Crear' }} Orden
+      </button>
+    </form>
+  
+    <h3 class="mt-4">Lista de Órdenes</h3>
+    <div class="list-group mt-3">
+      <div *ngFor="let orden of ordenes" class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="mb-1">Orden #{{ orden.id }}</h5>
+          <p class="mb-1">Cantidad: {{ orden.cantidad }}</p>
+          <p class="mb-1">Total: {{ orden.total }}</p>
+          <small>Fecha: {{ orden.fechaOrden | date }}</small>
+        </div>
+        <div>
+          <button class="btn btn-warning btn-sm" (click)="editOrden(orden)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteOrden(orden.id!)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

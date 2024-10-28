@@ -1,0 +1,46 @@
+<div class="container mt-4">
+    <h2>Gestión de Clientes</h2>
+  
+    <form [formGroup]="clienteForm" (ngSubmit)="addOrUpdateCliente()" class="mt-3">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input type="text" id="nombre" formControlName="nombre" required class="form-control">
+        <div *ngIf="clienteForm.get('nombre')?.invalid && clienteForm.get('nombre')?.touched" class="text-danger">
+          Nombre es requerido.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" id="email" formControlName="email" required class="form-control">
+        <div *ngIf="clienteForm.get('email')?.invalid && clienteForm.get('email')?.touched" class="text-danger">
+          Debe ser un email válido.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono:</label>
+        <input type="text" id="telefono" formControlName="telefono" class="form-control">
+      </div>
+  
+      <button type="submit" [disabled]="clienteForm.invalid" class="btn btn-primary">
+        {{ isEditing ? 'Actualizar' : 'Crear' }} Cliente
+      </button>
+    </form>
+  
+    <h3 class="mt-4">Lista de Clientes</h3>
+    <div class="list-group mt-3">
+      <div *ngFor="let cliente of clientes" class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="mb-1">{{ cliente.nombre }}</h5>
+          <p class="mb-1">{{ cliente.email }}</p>
+          <small *ngIf="cliente.telefono">Teléfono: {{ cliente.telefono }}</small>
+        </div>
+        <div>
+          <button class="btn btn-warning btn-sm" (click)="editCliente(cliente)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteCliente(cliente.id!)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
